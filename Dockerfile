@@ -12,8 +12,7 @@ RUN apk add --no-cache nginx curl bash
 RUN npm config set registry https://registry.npmmirror.com
 
 # 创建 UID 1000 用户（ModelScope 要求）
-# Alpine 默认的 node 用户就是 UID 1000
-RUN adduser -D -u 1000 user 2>/dev/null || true
+RUN addgroup -g 1000 user && adduser -D -u 1000 -G user user
 
 # 设置环境变量
 ENV HOME=/home/user \
