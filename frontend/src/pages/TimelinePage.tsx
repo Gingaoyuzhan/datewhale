@@ -69,7 +69,7 @@ export function TimelinePage() {
     },
     series: [
       {
-        name: 'Intensity',
+        name: '强度',
         type: 'line',
         smooth: true,
         data: curveData.map((d) => d.intensity),
@@ -104,8 +104,8 @@ export function TimelinePage() {
         className="flex items-center justify-between"
       >
         <div>
-          <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-2">Timeline</h1>
-          <p className="text-[var(--text-muted)]">Your emotional journey across time.</p>
+          <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-2">时间线</h1>
+          <p className="text-[var(--text-muted)]">你的情感旅程。</p>
         </div>
         <div className="hidden md:block">
           <div className={clsx(
@@ -129,7 +129,7 @@ export function TimelinePage() {
           <GlassCard className="p-6">
             <div className="flex items-center gap-2 mb-6">
               <Activity className="w-5 h-5 text-[var(--accent-primary)]" />
-              <h2 className="text-lg font-medium text-[var(--text-primary)]">30-Day Emotion Curve</h2>
+              <h2 className="text-lg font-medium text-[var(--text-primary)]">30天情绪曲线</h2>
             </div>
             <ReactECharts option={chartOption} style={{ height: 300 }} />
           </GlassCard>
@@ -148,7 +148,7 @@ export function TimelinePage() {
           timeline.map((item, index) => {
             const weather = WEATHER_MAP[item.weather] || WEATHER_MAP['多云'];
             const date = new Date(item.date);
-            const dateStr = date.toLocaleDateString('en-US', {
+            const dateStr = date.toLocaleDateString('zh-CN', {
               month: 'short',
               day: 'numeric',
             });
@@ -228,7 +228,7 @@ export function TimelinePage() {
           })
         ) : (
           <div className="text-center py-20 pl-20">
-            <p className="text-[var(--text-muted)]">Time seems to stand still here.</p>
+            <p className="text-[var(--text-muted)]">时间似乎在这里静止了。</p>
           </div>
         )}
       </div>

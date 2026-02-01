@@ -15,7 +15,7 @@ interface EntryInputProps {
 export function EntryInput({
   value,
   onChange,
-  placeholder = 'Write your thoughts here...',
+  placeholder = '在这里写下你的想法...',
   minLength = 10,
   maxLength = 5000,
 }: EntryInputProps) {
@@ -72,7 +72,7 @@ export function EntryInput({
         <span className="text-xs font-medium">
           {charCount < minLength && (
             <span className="text-amber-500">
-              {minLength - charCount} more characters needed
+              还需要 {minLength - charCount} 个字符
             </span>
           )}
         </span>

@@ -30,7 +30,7 @@ export function Loading() {
             isDark ? "text-slate-400" : "text-gray-600"
           )}
         >
-          Connecting with the cosmos...
+          正在连接宇宙...
         </motion.p>
       </motion.div>
     </div>

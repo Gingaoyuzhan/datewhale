@@ -53,7 +53,7 @@ export function HomePage() {
       }
     } catch (error) {
       console.error('Failed to create entry:', error);
-      alert('Failed to create entry, please try again');
+      alert('创建日记失败，请重试');
     } finally {
       setLoading(false);
     }
@@ -128,14 +128,14 @@ export function HomePage() {
 
 
   const today = new Date();
-  const dateStr = today.toLocaleDateString('en-US', {
+  const dateStr = today.toLocaleDateString('zh-CN', {
     weekday: 'long',
     month: 'long',
     day: 'numeric',
   });
 
   const hour = today.getHours();
-  const greeting = hour < 12 ? 'Good Morning' : hour < 18 ? 'Good Afternoon' : 'Good Evening';
+  const greeting = hour < 12 ? '早上好' : hour < 18 ? '下午好' : '晚上好';
 
   return (
     <>
@@ -242,13 +242,13 @@ export function HomePage() {
                       "text-4xl font-serif font-bold tracking-tight",
                       isDark ? "text-white/90" : "text-gray-800"
                     )}>
-                      {today.toLocaleDateString('en-US', { weekday: 'long' })}
+                      {today.toLocaleDateString('zh-CN', { weekday: 'long' })}
                     </span>
                     <span className={clsx(
                       "text-lg font-serif italic",
                       isDark ? "text-white/50" : "text-gray-500"
                     )}>
-                      {today.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                      {today.toLocaleDateString('zh-CN', { month: 'long', day: 'numeric', year: 'numeric' })}
                     </span>
                   </div>
                   <div className="scale-90 origin-top-right relative z-50">
@@ -264,7 +264,7 @@ export function HomePage() {
                   <textarea
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
-                    placeholder="Record your observations of the universe..."
+                    placeholder="记录你对宇宙的观察..."
                     className={clsx(
                       "w-full h-full bg-transparent border-none outline-none resize-none text-xl leading-[2rem] font-serif scrollbar-none",
                       isDark
@@ -286,7 +286,7 @@ export function HomePage() {
                     "text-xs font-mono flex gap-4 items-center",
                     isDark ? "text-slate-500" : "text-gray-500"
                   )}>
-                    <span>{content.length} chars</span>
+                    <span>{content.length} 字</span>
                     <div className="ml-4">
                       <input
                         type="file"
@@ -300,7 +300,7 @@ export function HomePage() {
                         className="flex items-center gap-2 text-[var(--accent-primary)] hover:opacity-80 transition-colors"
                       >
                         <ImageIcon className="w-4 h-4" />
-                        <span>Add Sticker</span>
+                        <span>添加贴纸</span>
                       </button>
                     </div>
                   </div>
@@ -315,7 +315,7 @@ export function HomePage() {
                     className="bg-[var(--accent-primary)] hover:bg-[var(--accent-secondary)] text-white shadow-lg shadow-purple-900/40"
                     icon={<Send className="w-4 h-4" />}
                   >
-                    {isLoading ? 'Transmitting...' : 'Save Log'}
+                    {isLoading ? '传输中...' : '保存日志'}
                   </GlassButton>
                 </div>
               </div>
@@ -382,13 +382,13 @@ export function HomePage() {
                       ? "text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400"
                       : "text-transparent bg-clip-text bg-gradient-to-b from-gray-800 to-gray-500"
                   )}>
-                    COSMOS
+                    心灵奇记
                   </h2>
                   <p className={clsx(
                     "text-xs tracking-[0.4em] uppercase font-mono",
                     isDark ? "text-purple-300/80" : "text-purple-600/80"
                   )}>
-                    Personal Logbook
+                    个人日志
                   </p>
                 </div>
               </div>
@@ -407,7 +407,7 @@ export function HomePage() {
                     "font-serif text-3xl mb-6 leading-relaxed",
                     isDark ? "text-white" : "text-gray-700"
                   )}>
-                    "Silence is the language of God, all else is poor translation."
+                    "沉默是上帝的语言，其他一切都是拙劣的翻译。"
                   </p>
                   <div className={clsx(
                     "w-12 h-0.5 mx-auto",

@@ -77,7 +77,7 @@ export function LoginPage() {
           setAuth(response.data.user, response.data.token);
           navigate('/');
         } else {
-          setError(response.message || 'Login failed');
+          setError(response.message || '登录失败');
         }
       } else {
         const response = await authApi.register({
@@ -90,11 +90,11 @@ export function LoginPage() {
           setAuth(response.data.user, response.data.token);
           navigate('/');
         } else {
-          setError(response.message || 'Registration failed');
+          setError(response.message || '注册失败');
         }
       }
     } catch (err: unknown) {
-      const errorMessage = err instanceof Error ? err.message : 'Operation failed';
+      const errorMessage = err instanceof Error ? err.message : '操作失败';
       setError(errorMessage);
     } finally {
       setLoading(false);
@@ -167,10 +167,10 @@ export function LoginPage() {
               ? "text-transparent bg-clip-text bg-gradient-to-r from-white to-white/70"
               : "text-transparent bg-clip-text bg-gradient-to-r from-gray-800 to-gray-600"
           )}>
-            SoulSync
+            心灵奇记
           </h1>
           <p className="text-[var(--text-muted)] font-light tracking-widest uppercase text-xs">
-            Where your soul finds its place
+            让心灵找到归属
           </p>
         </div>
 
@@ -187,7 +187,7 @@ export function LoginPage() {
                   : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
               )}
             >
-              Sign In
+              登录
             </button>
             <button
               onClick={() => setIsLogin(false)}
@@ -198,7 +198,7 @@ export function LoginPage() {
                   : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
               )}
             >
-              Join Us
+              注册
             </button>
           </div>
 
@@ -223,7 +223,7 @@ export function LoginPage() {
             <div className="space-y-4">
               <GlassInput
                 icon={<User className="w-4 h-4 text-[var(--accent-primary)]/50" />}
-                placeholder="Username"
+                placeholder="用户名"
                 value={formData.username}
                 onChange={(e) => setFormData({ ...formData, username: e.target.value })}
                 required
@@ -245,7 +245,7 @@ export function LoginPage() {
                   <GlassInput
                     icon={<Mail className="w-4 h-4 text-[var(--accent-primary)]/50" />}
                     type="email"
-                    placeholder="Email Address"
+                    placeholder="邮箱地址"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     required
@@ -258,7 +258,7 @@ export function LoginPage() {
                   />
                   <GlassInput
                     icon={<Sparkles className="w-4 h-4 text-[var(--accent-primary)]/50" />}
-                    placeholder="Nickname (Optional)"
+                    placeholder="昵称（可选）"
                     value={formData.nickname}
                     onChange={(e) => setFormData({ ...formData, nickname: e.target.value })}
                     className={clsx(
@@ -274,7 +274,7 @@ export function LoginPage() {
               <GlassInput
                 icon={<Lock className="w-4 h-4 text-[var(--accent-primary)]/50" />}
                 type="password"
-                placeholder="Password"
+                placeholder="密码"
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 required
@@ -295,7 +295,7 @@ export function LoginPage() {
               isLoading={loading}
               icon={!loading && <ArrowRight className="w-4 h-4" />}
             >
-              {isLogin ? 'Enter' : 'Ascend'}
+              {isLogin ? '进入' : '开启'}
             </GlassButton>
           </form>
         </div>
@@ -306,7 +306,7 @@ export function LoginPage() {
           transition={{ delay: 1 }}
           className="text-center text-[var(--text-dim)] text-[10px] mt-12 tracking-widest uppercase"
         >
-          Begin your inner exploration
+          开启你的内心探索之旅
         </motion.p>
       </motion.div>
     </div>

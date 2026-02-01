@@ -39,7 +39,7 @@ export function EmotionPicker({ selected, onSelect }: EmotionPickerProps) {
         <span className={clsx(
           "text-sm font-medium tracking-wide uppercase text-[10px]",
           isDark ? "text-slate-400" : "text-gray-500"
-        )}>Soul Resonance</span>
+        )}>心灵共鸣</span>
         <button
           onClick={() => setIsExpanded(!isExpanded)}
           className={clsx(
@@ -49,7 +49,7 @@ export function EmotionPicker({ selected, onSelect }: EmotionPickerProps) {
               : "text-gray-500 hover:text-gray-700"
           )}
         >
-          {isExpanded ? 'Show Less' : 'More Emotions'}
+          {isExpanded ? '收起' : '更多情绪'}
           {isExpanded ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
         </button>
       </div>

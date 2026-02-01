@@ -55,10 +55,10 @@ export function ResultPage() {
   if (!currentResult) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[50vh] gap-6 text-center">
-        <h2 className="text-2xl font-bold text-[var(--text-primary)]">Entry not found</h2>
-        <p className="text-[var(--text-muted)]">The entry you are looking for seems to be lost in the void.</p>
+        <h2 className="text-2xl font-bold text-[var(--text-primary)]">未找到日记</h2>
+        <p className="text-[var(--text-muted)]">你寻找的日记似乎已经消失在虚空中。</p>
         <Link to="/">
-          <GlassButton variant="secondary">Return Home</GlassButton>
+          <GlassButton variant="secondary">返回首页</GlassButton>
         </Link>
       </div>
     );
@@ -86,7 +86,7 @@ export function ResultPage() {
           )}
         >
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-          Back to Journey
+          返回旅程
         </button>
       </motion.div>
 
@@ -127,10 +127,10 @@ export function ResultPage() {
         >
           <div className="flex items-center justify-center gap-2 mb-2 text-[var(--accent-primary)]">
             <BookOpen className="w-5 h-5" />
-            <span className="text-sm font-bold tracking-widest uppercase">Literary Resonance</span>
+            <span className="text-sm font-bold tracking-widest uppercase">文学共鸣</span>
           </div>
           <h2 className="text-2xl font-bold text-[var(--text-primary)]">
-            Echoes from the Past
+            来自过去的回响
           </h2>
         </motion.div>
 
@@ -151,7 +151,7 @@ export function ResultPage() {
                 ? "bg-white/5 border-white/10"
                 : "bg-gray-50 border-gray-200"
             )}>
-              <p className="text-[var(--text-muted)]">No resonance found yet.</p>
+              <p className="text-[var(--text-muted)]">暂未找到共鸣。</p>
             </div>
           )}
         </div>
@@ -192,12 +192,12 @@ export function ResultPage() {
           }}
           size="lg"
         >
-          Write Another Entry
+          再写一篇
         </GlassButton>
 
         <Link to="/garden">
           <GlassButton variant="secondary" size="lg" icon={<Flower2 className="w-4 h-4" />}>
-            Visit Soul Garden
+            访问心灵花园
           </GlassButton>
         </Link>
       </motion.div>
