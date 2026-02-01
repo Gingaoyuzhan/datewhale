@@ -29,8 +29,8 @@ BACKEND_PID=$!
 
 # 等待后端启动
 echo "等待后端服务就绪..."
-sleep 3
-for i in {1..30}; do
+sleep 5
+for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30; do
     if curl -s http://localhost:3000/api > /dev/null 2>&1; then
         echo "后端服务已就绪"
         break
