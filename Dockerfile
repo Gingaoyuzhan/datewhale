@@ -52,8 +52,8 @@ USER node
 # 设置 node 用户的 npm 镜像
 RUN npm config set registry https://registry.npmmirror.com
 
-# 安装前端依赖
-RUN cd frontend && npm install --legacy-peer-deps
+# 安装前端依赖（包括 devDependencies 用于构建）
+RUN cd frontend && npm install --legacy-peer-deps --include=dev
 
 # 复制前端源码并构建
 COPY --chown=node frontend/ ./frontend/
@@ -62,8 +62,8 @@ RUN cd frontend && npm run build
 # 复制后端 package.json
 COPY --chown=node backend/package*.json ./backend/
 
-# 安装后端依赖
-RUN cd backend && npm install
+# 安装后端依赖（包括 devDependencies 用于构建）
+RUN cd backend && npm install --include=dev
 
 # 复制后端源码并构建
 COPY --chown=node backend/ ./backend/
