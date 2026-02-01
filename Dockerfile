@@ -1,26 +1,19 @@
 # ============================================
 # 心灵奇记 - ModelScope 创空间部署 Dockerfile
-# 关键：必须以 UID 1000 用户运行
+# 使用 Alpine 镜像减小体积
 # ============================================
 
-FROM python:3.10-slim
+FROM node:20-alpine
 
-# 安装系统依赖（在 root 用户下）
-RUN apt-get update && apt-get install -y \
-    nginx \
-    curl \
-    nodejs \
-    npm \
-    && rm -rf /var/lib/apt/lists/*
+# 安装系统依赖（Alpine 使用 apk）
+RUN apk add --no-cache nginx curl bash
 
-# 安装 Node.js 20.x
-RUN npm install -g n && n 20
-
-# 设置 npm 使用淘宝镜像（解决 ModelScope 网络问题）
+# 设置 npm 使用淘宝镜像
 RUN npm config set registry https://registry.npmmirror.com
 
 # 创建 UID 1000 用户（ModelScope 要求）
-RUN useradd -m -u 1000 user
+# Alpine 默认的 node 用户就是 UID 1000
+RUN adduser -D -u 1000 user 2>/dev/null || true
 
 # 设置环境变量
 ENV HOME=/home/user \
@@ -34,7 +27,7 @@ ENV HOME=/home/user \
 
 WORKDIR /home/user/app
 
-# 创建必要目录并设置权限（在 root 用户下）
+# 创建必要目录并设置权限
 RUN mkdir -p /home/user/app/frontend \
              /home/user/app/backend \
              /home/user/app/data \
@@ -46,10 +39,9 @@ RUN mkdir -p /home/user/app/frontend \
     chown -R user:user /var/log/nginx && \
     chown -R user:user /etc/nginx
 
-# 复制 nginx 配置（在 root 用户下，确保权限正确）
-COPY deploy/nginx.conf /etc/nginx/conf.d/default.conf
-RUN rm -f /etc/nginx/sites-enabled/default && \
-    chown user:user /etc/nginx/conf.d/default.conf
+# 复制 nginx 配置
+COPY deploy/nginx.conf /etc/nginx/http.d/default.conf
+RUN chown user:user /etc/nginx/http.d/default.conf
 
 # 复制前端 package.json
 COPY --chown=user frontend/package*.json ./frontend/
