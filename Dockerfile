@@ -16,6 +16,9 @@ RUN apt-get update && apt-get install -y \
 # 安装 Node.js 20.x
 RUN npm install -g n && n 20
 
+# 设置 npm 使用淘宝镜像（解决 ModelScope 网络问题）
+RUN npm config set registry https://registry.npmmirror.com
+
 # 创建 UID 1000 用户（ModelScope 要求）
 RUN useradd -m -u 1000 user
 
@@ -53,6 +56,9 @@ COPY --chown=user frontend/package*.json ./frontend/
 
 # 切换到 user 用户
 USER user
+
+# 设置 user 的 npm 镜像
+RUN npm config set registry https://registry.npmmirror.com
 
 # 安装前端依赖
 RUN cd frontend && npm install --legacy-peer-deps
