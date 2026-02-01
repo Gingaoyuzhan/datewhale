@@ -8,7 +8,7 @@ FROM node:20-alpine
 # 安装系统依赖（Alpine 使用 apk）
 RUN apk add --no-cache nginx curl bash
 
-# 设置 npm 使用淘宝镜像
+# 设置 npm 使用淘宝镜像（全局）
 RUN npm config set registry https://registry.npmmirror.com
 
 # node:20-alpine 镜像中 node 用户已经是 UID 1000
@@ -27,51 +27,59 @@ ENV HOME=/home/node \
 
 WORKDIR /home/node/app
 
-# 创建必要目录并设置权限（使用 node 用户）
+# 创建必要目录
 RUN mkdir -p /home/node/app/frontend \
              /home/node/app/backend \
              /home/node/app/data \
              /home/node/app/logs \
-             /run/nginx && \
-    chown -R node:node /home/node/app && \
-    chown -R node:node /run/nginx && \
+             /run/nginx
+
+# 设置 nginx 目录权限
+RUN chown -R node:node /run/nginx && \
     chown -R node:node /var/lib/nginx && \
     chown -R node:node /var/log/nginx && \
     chown -R node:node /etc/nginx
 
 # 复制 nginx 配置
 COPY deploy/nginx.conf /etc/nginx/http.d/default.conf
-RUN chown node:node /etc/nginx/http.d/default.conf
 
-# 复制前端 package.json
-COPY --chown=node frontend/package*.json ./frontend/
+# ============================================
+# 前端构建（在 root 用户下完成）
+# ============================================
 
-# 切换到 node 用户（UID 1000）
-USER node
-
-# 设置 node 用户的 npm 镜像
-RUN npm config set registry https://registry.npmmirror.com
-
-# 安装前端依赖（包括 devDependencies 用于构建）
+# 复制前端 package.json 并安装依赖
+COPY frontend/package*.json ./frontend/
 RUN cd frontend && npm install --legacy-peer-deps --include=dev
 
 # 复制前端源码并构建
-COPY --chown=node frontend/ ./frontend/
+COPY frontend/ ./frontend/
 RUN cd frontend && npm run build
 
-# 复制后端 package.json
-COPY --chown=node backend/package*.json ./backend/
+# ============================================
+# 后端构建（在 root 用户下完成）
+# ============================================
 
-# 安装后端依赖（包括 devDependencies 用于构建）
+# 复制后端 package.json 并安装依赖
+COPY backend/package*.json ./backend/
 RUN cd backend && npm install --include=dev
 
 # 复制后端源码并构建
-COPY --chown=node backend/ ./backend/
+COPY backend/ ./backend/
 RUN cd backend && npm run build
 
+# ============================================
+# 最终设置
+# ============================================
+
 # 复制启动脚本
-COPY --chown=node deploy/start.sh ./start.sh
+COPY deploy/start.sh ./start.sh
 RUN chmod +x ./start.sh
+
+# 设置所有文件的所有权为 node 用户
+RUN chown -R node:node /home/node/app
+
+# 切换到 node 用户（UID 1000，ModelScope 要求）
+USER node
 
 # 暴露端口
 EXPOSE 7860
