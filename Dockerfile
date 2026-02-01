@@ -16,6 +16,7 @@ RUN npm config set registry https://registry.npmmirror.com
 RUN ln -s /home/node /home/user 2>/dev/null || true
 
 # 设置环境变量
+# 注意：DASHSCOPE_API_KEY 需要在 ModelScope 创空间的环境变量中配置
 ENV HOME=/home/node \
     PATH=/home/node/.local/bin:/usr/local/bin:$PATH \
     NODE_ENV=production \
@@ -23,7 +24,8 @@ ENV HOME=/home/node \
     DB_TYPE=sqlite \
     DB_PATH=/home/node/app/data/xinling_diary.db \
     JWT_SECRET=xinling_diary_jwt_secret_2026 \
-    JWT_EXPIRES_IN=7d
+    JWT_EXPIRES_IN=7d \
+    DASHSCOPE_API_KEY=""
 
 WORKDIR /home/node/app
 

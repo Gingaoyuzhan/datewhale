@@ -21,10 +21,22 @@ export DB_PATH=${APP_DIR}/data/xinling_diary.db
 export JWT_SECRET=xinling_diary_jwt_secret_2026
 export JWT_EXPIRES_IN=7d
 
-# 启动后端服务
+# 创建 .env 文件确保 ConfigModule 能读取到正确的值
+cat > ${APP_DIR}/backend/.env << EOF
+NODE_ENV=production
+PORT=3000
+DB_TYPE=sqlite
+DB_PATH=${APP_DIR}/data/xinling_diary.db
+JWT_SECRET=xinling_diary_jwt_secret_2026
+JWT_EXPIRES_IN=7d
+EOF
+
+echo "环境变量已设置，JWT_SECRET: ${JWT_SECRET:0:10}..."
+
+# 启动后端服务（输出到控制台和文件）
 echo "启动后端服务..."
 cd ${APP_DIR}/backend
-node dist/main.js > ${APP_DIR}/logs/backend.log 2>&1 &
+node dist/main.js 2>&1 | tee ${APP_DIR}/logs/backend.log &
 BACKEND_PID=$!
 
 # 等待后端启动

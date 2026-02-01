@@ -15,12 +15,17 @@ import { UserModule } from '../user/user.module';
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        secret: configService.get('JWT_SECRET', 'default_secret'),
-        signOptions: {
-          expiresIn: configService.get('JWT_EXPIRES_IN', '7d'),
-        },
-      }),
+      useFactory: (configService: ConfigService) => {
+        const secret = configService.get('JWT_SECRET', 'default_secret');
+        // 调试日志：输出签名用的 JWT_SECRET
+        console.log('[JwtModule] 签名用 JWT_SECRET:', secret ? secret.substring(0, 15) + '...' : 'NOT SET');
+        return {
+          secret,
+          signOptions: {
+            expiresIn: configService.get('JWT_EXPIRES_IN', '7d'),
+          },
+        };
+      },
     }),
   ],
   providers: [AuthService, JwtStrategy, LocalStrategy],

@@ -51,9 +51,11 @@ export function HomePage() {
         setCurrentResult(response.data);
         navigate(`/result/${response.data.entry.id}`);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to create entry:', error);
-      alert('创建日记失败，请重试');
+      // 区分错误类型，给用户更明确的提示
+      const errorMessage = error?.message || error?.error || '创建日记失败，请重试';
+      alert(errorMessage);
     } finally {
       setLoading(false);
     }

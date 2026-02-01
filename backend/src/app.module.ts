@@ -13,7 +13,7 @@ import { StatsModule } from './stats/stats.module';
 
 @Module({
   imports: [
-    // 配置模块
+    // 配置模块 - 读取 .env 文件（由 start.sh 在运行时创建）
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
