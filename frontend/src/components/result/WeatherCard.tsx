@@ -61,13 +61,13 @@ export function WeatherCard({ weatherType, emotion, intensity }: WeatherCardProp
             "text-2xl font-bold mb-2 tracking-wide",
             isDark ? "text-white" : "text-gray-900"
           )}>
-            Mood: {emotion}
+            心情：{emotion}
           </p>
           <p className={clsx(
             "text-sm uppercase tracking-widest font-medium",
             isDark ? "text-slate-400" : "text-gray-500"
           )}>
-            Intensity: {Math.round(intensity * 100)}%
+            强度：{Math.round(intensity * 100)}%
           </p>
         </div>
 

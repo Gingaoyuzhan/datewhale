@@ -30,7 +30,7 @@ export function InsightCard({ insight, keywords, imagery }: InsightCardProps) {
           "text-lg font-bold tracking-wide uppercase",
           isDark ? "text-indigo-300" : "text-indigo-700"
         )}>
-          Psychological Insight
+          心理洞察
         </h3>
       </div>
 
@@ -48,7 +48,7 @@ export function InsightCard({ insight, keywords, imagery }: InsightCardProps) {
               "flex items-center gap-2 text-xs uppercase tracking-widest mb-3",
               isDark ? "text-slate-400" : "text-gray-500"
             )}>
-              <Hash className="w-3 h-3" /> Keywords
+              <Hash className="w-3 h-3" /> 关键词
             </div>
             <div className="flex flex-wrap gap-2">
               {keywords.map((keyword, index) => (
@@ -77,7 +77,7 @@ export function InsightCard({ insight, keywords, imagery }: InsightCardProps) {
               "flex items-center gap-2 text-xs uppercase tracking-widest mb-3",
               isDark ? "text-slate-400" : "text-gray-500"
             )}>
-              <Palette className="w-3 h-3" /> Imagery
+              <Palette className="w-3 h-3" /> 意象
             </div>
             <div className="flex flex-wrap gap-2">
               {imagery.map((img, index) => (

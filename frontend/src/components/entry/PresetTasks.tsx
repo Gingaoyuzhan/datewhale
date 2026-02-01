@@ -13,21 +13,21 @@ interface PresetTask {
 
 const PRESET_TASKS: PresetTask[] = [
   {
-    title: 'Graduation',
-    content: 'Standing at the school gate today, looking back at everything familiar, my heart is filled with mixed emotions...',
-    emotion: 'Touched',
+    title: '毕业季',
+    content: '今天站在校门口，回望这一切熟悉的景象，心中百感交集...',
+    emotion: '感动',
     icon: Sparkles
   },
   {
-    title: 'Late Night',
-    content: 'Another sleepless night, the city lights outside the window are bright, but I feel unprecedented loneliness...',
-    emotion: 'Lonely',
+    title: '深夜',
+    content: '又是一个失眠的夜晚，窗外的城市灯火通明，我却感到前所未有的孤独...',
+    emotion: '孤独',
     icon: Moon
   },
   {
-    title: 'Rainy Cafe',
-    content: 'Outside the window, a light rain is falling. I sit in the corner of the cafe, watching the raindrops slide down the glass...',
-    emotion: 'Calm',
+    title: '雨天咖啡馆',
+    content: '窗外下着淅淅沥沥的小雨，我坐在咖啡馆的角落，看着雨滴顺着玻璃滑落...',
+    emotion: '平静',
     icon: Coffee
   },
 ];
@@ -46,7 +46,7 @@ export function PresetTasks({ onSelect }: PresetTasksProps) {
         "text-sm font-medium",
         isDark ? "text-slate-400" : "text-gray-500"
       )}>
-        Need inspiration? Try these moments:
+        需要灵感？试试这些时刻：
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {PRESET_TASKS.map((task, index) => {

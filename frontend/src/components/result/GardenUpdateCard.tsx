@@ -5,17 +5,8 @@ import type { GardenUpdate } from '../../types';
 import { useThemeStore } from '../../stores/themeStore';
 import clsx from 'clsx';
 
-// Plant Icons Map (simplified for now, can be expanded)
+// 植物图标映射
 const PLANT_ICONS: Record<string, string> = {
-  'Pine': '🌲',
-  'Lotus': '🪷',
-  'Bamboo': '🎍',
-  'Rose': '🌹',
-  'Oak': '🌳',
-  'Sunflower': '🌻',
-  'Cactus': '🌵',
-  'Olive': '🫒',
-  // Fallback map for Chinese names if API returns them
   '松树': '🌲',
   '莲花': '🪷',
   '竹子': '🎍',
@@ -24,6 +15,15 @@ const PLANT_ICONS: Record<string, string> = {
   '向日葵': '🌻',
   '仙人掌': '🌵',
   '橄榄树': '🫒',
+  // 英文名称映射（兼容）
+  'Pine': '🌲',
+  'Lotus': '🪷',
+  'Bamboo': '🎍',
+  'Rose': '🌹',
+  'Oak': '🌳',
+  'Sunflower': '🌻',
+  'Cactus': '🌵',
+  'Olive': '🫒',
 };
 
 interface GardenUpdateCardProps {
@@ -52,7 +52,7 @@ export function GardenUpdateCard({ updates }: GardenUpdateCardProps) {
           "text-lg font-bold tracking-wide uppercase",
           isDark ? "text-emerald-300" : "text-emerald-700"
         )}>
-          Garden Updates
+          花园动态
         </h3>
       </div>
 
@@ -104,11 +104,11 @@ export function GardenUpdateCard({ updates }: GardenUpdateCardProps) {
                 )}>
                   {update.isNewPlant ? (
                     <span className="text-amber-500 flex items-center gap-1">
-                      <SparklesIcon className="w-3 h-3" /> New Discovery!
+                      <SparklesIcon className="w-3 h-3" /> 新发现！
                     </span>
                   ) : (
                     <span className="flex items-center gap-2">
-                      Stage {update.previousStage} <ArrowRight className="w-3 h-3" /> Stage {update.currentStage}
+                      第 {update.previousStage} 阶段 <ArrowRight className="w-3 h-3" /> 第 {update.currentStage} 阶段
                     </span>
                   )}
                 </div>

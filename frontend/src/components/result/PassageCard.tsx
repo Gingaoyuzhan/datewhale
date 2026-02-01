@@ -45,7 +45,7 @@ export function PassageCard({ match, isActive = false, onClick }: PassageCardPro
             : "bg-purple-100 border-purple-200 text-purple-700"
         )}>
           <Sparkles className="w-3 h-3" />
-          {Math.round(matchScore * 100)}% Match
+          {Math.round(matchScore * 100)}% 匹配
         </div>
 
         {/* Rank Watermark */}
@@ -77,13 +77,13 @@ export function PassageCard({ match, isActive = false, onClick }: PassageCardPro
               "font-bold text-lg",
               isDark ? "text-white" : "text-gray-900"
             )}>
-              {passage.author?.name || 'Anonymous'}
+              {passage.author?.name || '佚名'}
             </p>
             <p className={clsx(
               "text-sm",
               isDark ? "text-slate-400" : "text-gray-500"
             )}>
-              《{passage.work?.title || 'Unknown Work'}》
+              《{passage.work?.title || '未知作品'}》
             </p>
           </div>
         </div>
