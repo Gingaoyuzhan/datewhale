@@ -5,7 +5,7 @@
 
 FROM python:3.10-slim
 
-# 安装系统依赖
+# 安装系统依赖（在 root 用户下）
 RUN apt-get update && apt-get install -y \
     nginx \
     curl \
@@ -21,7 +21,7 @@ RUN useradd -m -u 1000 user
 
 # 设置环境变量
 ENV HOME=/home/user \
-    PATH=/home/user/.local/bin:$PATH \
+    PATH=/home/user/.local/bin:/usr/local/bin:$PATH \
     NODE_ENV=production \
     PORT=3000 \
     DB_TYPE=sqlite \
@@ -29,13 +29,26 @@ ENV HOME=/home/user \
     JWT_SECRET=xinling_diary_jwt_secret_2026 \
     JWT_EXPIRES_IN=7d
 
-WORKDIR $HOME/app
+WORKDIR /home/user/app
 
-# 创建必要目录并设置权限
-RUN mkdir -p $HOME/app/frontend $HOME/app/backend $HOME/app/data $HOME/app/logs /run/nginx && \
-    chown -R user:user $HOME/app /run/nginx /var/lib/nginx /var/log/nginx
+# 创建必要目录并设置权限（在 root 用户下）
+RUN mkdir -p /home/user/app/frontend \
+             /home/user/app/backend \
+             /home/user/app/data \
+             /home/user/app/logs \
+             /run/nginx && \
+    chown -R user:user /home/user/app && \
+    chown -R user:user /run/nginx && \
+    chown -R user:user /var/lib/nginx && \
+    chown -R user:user /var/log/nginx && \
+    chown -R user:user /etc/nginx
 
-# 复制前端文件（必须使用 --chown=user）
+# 复制 nginx 配置（在 root 用户下，确保权限正确）
+COPY deploy/nginx.conf /etc/nginx/conf.d/default.conf
+RUN rm -f /etc/nginx/sites-enabled/default && \
+    chown user:user /etc/nginx/conf.d/default.conf
+
+# 复制前端 package.json
 COPY --chown=user frontend/package*.json ./frontend/
 
 # 切换到 user 用户
@@ -48,7 +61,7 @@ RUN cd frontend && npm install --legacy-peer-deps
 COPY --chown=user frontend/ ./frontend/
 RUN cd frontend && npm run build
 
-# 复制后端文件
+# 复制后端 package.json
 COPY --chown=user backend/package*.json ./backend/
 
 # 安装后端依赖
@@ -58,21 +71,9 @@ RUN cd backend && npm install
 COPY --chown=user backend/ ./backend/
 RUN cd backend && npm run build
 
-# 复制配置文件
-COPY --chown=user deploy/nginx.conf /etc/nginx/sites-enabled/default
+# 复制启动脚本
 COPY --chown=user deploy/start.sh ./start.sh
-
-# 确保启动脚本可执行
-USER root
-RUN chmod +x $HOME/app/start.sh && \
-    chown -R user:user /etc/nginx /var/lib/nginx /var/log/nginx /run/nginx && \
-    rm -f /etc/nginx/sites-enabled/default && \
-    ln -s $HOME/app/nginx.conf /etc/nginx/sites-enabled/default 2>/dev/null || true
-
-# 复制 nginx 配置到正确位置
-COPY --chown=user deploy/nginx.conf /etc/nginx/conf.d/default.conf
-
-USER user
+RUN chmod +x ./start.sh
 
 # 暴露端口
 EXPOSE 7860

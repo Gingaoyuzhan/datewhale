@@ -29,7 +29,7 @@ import { StatsModule } from './stats/stats.module';
         if (dbType === 'sqlite') {
           return {
             type: 'sqljs',
-            location: configService.get('DB_PATH', '/app/data/xinling_diary.db'),
+            location: configService.get('DB_PATH', '/home/user/app/data/xinling_diary.db'),
             autoSave: true,
             entities: [__dirname + '/**/*.entity{.ts,.js}'],
             synchronize: true,
