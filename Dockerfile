@@ -1,14 +1,15 @@
 # ============================================
 # 心灵奇记 - ModelScope 部署 Dockerfile
-# 使用 ModelScope 基础镜像 + Node.js
+# 使用 Node.js 官方镜像
 # ============================================
 
-FROM modelscope-registry.cn-beijing.cr.aliyuncs.com/modelscope-repo/python:3.10
+FROM node:20-slim
 
-# 安装 Node.js 20.x 和 nginx
-RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
-    apt-get install -y nodejs nginx && \
-    rm -rf /var/lib/apt/lists/*
+# 安装 nginx 和 curl
+RUN apt-get update && apt-get install -y \
+    nginx \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /home/user/app
 
@@ -30,10 +31,11 @@ RUN cd backend && npm run build
 COPY deploy/nginx.conf /etc/nginx/sites-available/default
 COPY deploy/start.sh /home/user/app/start.sh
 
-# 创建数据目录
+# 创建数据目录并设置权限
 RUN mkdir -p /home/user/app/logs /home/user/app/data && \
     chmod +x /home/user/app/start.sh && \
-    chmod -R 777 /home/user/app/data
+    chmod -R 777 /home/user/app/data && \
+    chmod -R 777 /home/user/app/logs
 
 # 设置环境变量
 ENV NODE_ENV=production
@@ -45,4 +47,4 @@ ENV JWT_EXPIRES_IN=7d
 
 EXPOSE 7860
 
-ENTRYPOINT ["/home/user/app/start.sh"]
+CMD ["/home/user/app/start.sh"]
