@@ -49,7 +49,7 @@ COPY deploy/nginx.conf /etc/nginx/http.d/default.conf
 
 # 复制前端 package.json 并安装依赖
 COPY frontend/package*.json ./frontend/
-RUN cd frontend && npm install --legacy-peer-deps --include=dev
+RUN cd frontend && npm install --registry=https://registry.npmmirror.com --legacy-peer-deps --include=dev
 
 # 复制前端源码并构建
 COPY frontend/ ./frontend/
@@ -61,7 +61,7 @@ RUN cd frontend && npm run build
 
 # 复制后端 package.json 并安装依赖
 COPY backend/package*.json ./backend/
-RUN cd backend && npm install --include=dev
+RUN cd backend && npm install --registry=https://registry.npmmirror.com --include=dev
 
 # 复制后端源码并构建
 COPY backend/ ./backend/
