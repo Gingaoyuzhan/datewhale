@@ -3,12 +3,15 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
 
+// 生产环境的 JWT_SECRET（硬编码确保一致性）
+const PRODUCTION_JWT_SECRET = 'xinling_diary_jwt_secret_2026';
+
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(configService: ConfigService) {
-    const secret = configService.get('JWT_SECRET', 'default_secret');
-    // 调试日志：输出 JWT_SECRET 的前 15 个字符
-    console.log('[JwtStrategy] JWT_SECRET:', secret ? secret.substring(0, 15) + '...' : 'NOT SET');
+    // 优先使用环境变量，否则使用硬编码的值
+    const secret = configService.get('JWT_SECRET') || PRODUCTION_JWT_SECRET;
+    console.log('[JwtStrategy] JWT_SECRET:', secret.substring(0, 15) + '...');
 
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

@@ -8,6 +8,9 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 import { UserModule } from '../user/user.module';
 
+// 生产环境的 JWT_SECRET（硬编码确保一致性）
+const PRODUCTION_JWT_SECRET = 'xinling_diary_jwt_secret_2026';
+
 @Module({
   imports: [
     UserModule,
@@ -16,9 +19,9 @@ import { UserModule } from '../user/user.module';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
-        const secret = configService.get('JWT_SECRET', 'default_secret');
-        // 调试日志：输出签名用的 JWT_SECRET
-        console.log('[JwtModule] 签名用 JWT_SECRET:', secret ? secret.substring(0, 15) + '...' : 'NOT SET');
+        // 优先使用环境变量，否则使用硬编码的值
+        const secret = configService.get('JWT_SECRET') || PRODUCTION_JWT_SECRET;
+        console.log('[JwtModule] 签名用 JWT_SECRET:', secret.substring(0, 15) + '...');
         return {
           secret,
           signOptions: {
