@@ -27,10 +27,12 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response.data,
   (error) => {
-    if (error.response?.status === 401) {
-      localStorage.removeItem('token');
-      window.location.href = '/login';
-    }
+    console.error('[API Error]', error.config?.url, error.response?.status, error.response?.data);
+    // 暂时注释掉自动清除 token 的逻辑，方便调试
+    // if (error.response?.status === 401) {
+    //   localStorage.removeItem('token');
+    //   window.location.href = '/login';
+    // }
     return Promise.reject(error.response?.data || error);
   }
 );
