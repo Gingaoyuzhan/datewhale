@@ -11,13 +11,14 @@ const api = axios.create({
   },
 });
 
-// 请求拦截器 - 添加token
+// 请求拦截器 - 添加token（使用自定义 header 避免与平台冲突）
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
     console.log('[API Request]', config.url, 'Token存在:', !!token, token ? `${token.substring(0, 20)}...` : 'null');
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      // 使用自定义 header 避免与 ModelScope 平台的 Authorization 冲突
+      config.headers['X-Auth-Token'] = token;
     }
     return config;
   },
