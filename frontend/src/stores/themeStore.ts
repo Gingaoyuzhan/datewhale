@@ -12,7 +12,7 @@ interface ThemeState {
 export const useThemeStore = create<ThemeState>()(
   persist(
     (set, get) => ({
-      theme: 'dark', // 默认深色主题
+      theme: 'light', // 默认浅色主题
 
       toggleTheme: () => {
         const newTheme = get().theme === 'dark' ? 'light' : 'dark';
@@ -56,11 +56,11 @@ export function initializeTheme() {
   if (stored) {
     try {
       const { state } = JSON.parse(stored);
-      updateDocumentTheme(state.theme || 'dark');
+      updateDocumentTheme(state.theme || 'light');
     } catch {
-      updateDocumentTheme('dark');
+      updateDocumentTheme('light');
     }
   } else {
-    updateDocumentTheme('dark');
+    updateDocumentTheme('light');
   }
 }
