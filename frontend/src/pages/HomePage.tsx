@@ -8,7 +8,7 @@ import { GlassButton } from '../components/ui/GlassButton';
 import { entryApi } from '../services/api';
 import { useEntryStore } from '../stores/entryStore';
 import { useThemeStore } from '../stores/themeStore';
-import { Send, Image as ImageIcon, X, Mic, ScanLine } from 'lucide-react';
+import { Send, X, Mic, ScanLine } from 'lucide-react';
 import clsx from 'clsx';
 
 interface Sticker {
