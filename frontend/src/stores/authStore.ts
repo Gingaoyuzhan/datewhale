@@ -21,7 +21,9 @@ export const useAuthStore = create<AuthState>()(
       _hasHydrated: false,
 
       setAuth: (user, token) => {
+        console.log('[AuthStore] setAuth called, token:', token ? `${token.substring(0, 20)}...` : 'null');
         localStorage.setItem('token', token);
+        console.log('[AuthStore] Token saved to localStorage, verify:', localStorage.getItem('token')?.substring(0, 20));
         set({ user, token, isAuthenticated: true });
       },
 
