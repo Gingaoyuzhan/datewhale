@@ -157,16 +157,14 @@ export function ResultPage() {
         </div>
       </section>
 
-      {/* Insights Section */}
-      {analysis.psychologicalInsight && (
-        <section>
-          <InsightCard
-            insight={analysis.psychologicalInsight}
-            keywords={analysis.keywords}
-            imagery={analysis.imagery}
-          />
-        </section>
-      )}
+      {/* Insights Section - 始终显示，无内容时显示提示 */}
+      <section>
+        <InsightCard
+          insight={analysis.psychologicalInsight || ''}
+          keywords={analysis.keywords}
+          imagery={analysis.imagery}
+        />
+      </section>
 
       {/* Garden Updates Section */}
       {gardenUpdates.length > 0 && (

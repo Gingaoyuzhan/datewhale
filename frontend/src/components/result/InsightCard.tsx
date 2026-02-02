@@ -38,7 +38,14 @@ export function InsightCard({ insight, keywords, imagery }: InsightCardProps) {
         "leading-relaxed mb-8 text-lg font-light",
         isDark ? "text-slate-300" : "text-gray-700"
       )}>
-        {insight}
+        {insight || (
+          <span className={clsx(
+            "italic",
+            isDark ? "text-slate-500" : "text-gray-400"
+          )}>
+            正在积攒记忆以分析...随着你记录更多日记，我会逐渐了解你的内心世界。
+          </span>
+        )}
       </p>
 
       <div className="space-y-6">

@@ -16,9 +16,9 @@ export function Layout({ children }: LayoutProps) {
     const location = useLocation();
 
     const navItems = [
-        { path: '/', label: 'Journey', icon: Book },
-        { path: '/garden', label: 'Soul Garden', icon: Flower2 },
-        { path: '/timeline', label: 'Timeline', icon: Clock },
+        { path: '/', label: '心灵日记', icon: Book },
+        { path: '/garden', label: '灵魂花园', icon: Flower2 },
+        { path: '/timeline', label: '时光轴', icon: Clock },
     ];
 
     const isDark = theme === 'dark';
@@ -60,7 +60,7 @@ export function Layout({ children }: LayoutProps) {
                             <Compass className="text-white w-6 h-6" />
                         </div>
                         <h1 className="text-xl font-bold tracking-tight hidden lg:block text-[var(--text-primary)]">
-                            SoulSync
+                            心灵奇记
                         </h1>
                     </div>
 
@@ -148,9 +148,9 @@ export function Layout({ children }: LayoutProps) {
                         </div>
                         <div className="flex-1 min-w-0">
                             <p className="text-sm font-medium text-[var(--text-primary)] truncate">
-                                {user?.nickname || user?.username || 'Traveler'}
+                                {user?.nickname || user?.username || '旅行者'}
                             </p>
-                            <p className="text-xs text-[var(--text-muted)] truncate">Cosmic Being</p>
+                            <p className="text-xs text-[var(--text-muted)] truncate">心灵探索者</p>
                         </div>
                         <button
                             onClick={logout}
@@ -160,7 +160,7 @@ export function Layout({ children }: LayoutProps) {
                                     ? "hover:bg-white/10 text-slate-400 hover:text-red-400"
                                     : "hover:bg-black/10 text-gray-400 hover:text-red-500"
                             )}
-                            title="Logout"
+                            title="退出登录"
                         >
                             <LogOut className="w-5 h-5" />
                         </button>

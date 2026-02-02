@@ -8,7 +8,7 @@ import { GlassButton } from '../components/ui/GlassButton';
 import { entryApi } from '../services/api';
 import { useEntryStore } from '../stores/entryStore';
 import { useThemeStore } from '../stores/themeStore';
-import { Send, Image as ImageIcon, X } from 'lucide-react';
+import { Send, Image as ImageIcon, X, Mic, ScanLine } from 'lucide-react';
 import clsx from 'clsx';
 
 interface Sticker {
@@ -30,7 +30,21 @@ export function HomePage() {
   const [stickers, setStickers] = useState<Sticker[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const [isRecording, setIsRecording] = useState(false);
+
   const isDark = theme === 'dark';
+
+  // AI 动态引导词
+  const guidingPrompts = [
+    '今天在学校遇到了什么有意思的事吗？',
+    '最近有什么让你开心或烦恼的事情吗？',
+    '今天的心情怎么样？想聊聊吗？',
+    '有没有什么想要记录下来的瞬间？',
+    '今天学到了什么新东西吗？',
+  ];
+  const [currentPrompt] = useState(() =>
+    guidingPrompts[Math.floor(Math.random() * guidingPrompts.length)]
+  );
 
   const handleSubmit = async () => {
     if (content.length < 10) return;
@@ -144,12 +158,12 @@ export function HomePage() {
       {isLoading && <Loading />}
 
       <div className="max-w-5xl mx-auto space-y-8 pb-20 perspective-[2000px]">
-        {/* Header */}
+        {/* Header - 随页面滚动，不再锁定 */}
         <motion.header
           initial={{ opacity: 0, y: -20, rotateX: 20 }}
           animate={{ opacity: 1, y: 0, rotateX: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-center md:text-left md:flex md:items-end md:justify-between sticky top-4 z-40 transform-style-3d translate-z-10"
+          className="text-center md:text-left md:flex md:items-end md:justify-between z-40 transform-style-3d translate-z-10"
         >
           <div>
             <p className="text-[var(--accent-primary)] font-medium tracking-wide mb-1 uppercase text-xs font-mono">
@@ -266,7 +280,7 @@ export function HomePage() {
                   <textarea
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
-                    placeholder="记录你对宇宙的观察..."
+                    placeholder={currentPrompt}
                     className={clsx(
                       "w-full h-full bg-transparent border-none outline-none resize-none text-xl leading-[2rem] font-serif scrollbar-none",
                       isDark
@@ -280,32 +294,47 @@ export function HomePage() {
                 </div>
 
                 {/* Footer & Actions */}
-                <div className={clsx(
-                  "flex justify-between items-end mt-8 pt-4 border-t",
-                  isDark ? "border-white/5" : "border-black/5"
-                )}>
-                  <div className={clsx(
-                    "text-xs font-mono flex gap-4 items-center",
-                    isDark ? "text-slate-500" : "text-gray-500"
-                  )}>
-                    <span>{content.length} 字</span>
-                    <div className="ml-4">
-                      <input
-                        type="file"
-                        ref={fileInputRef}
-                        className="hidden"
-                        accept="image/*"
-                        onChange={handleImageUpload}
-                      />
-                      <button
-                        onClick={() => fileInputRef.current?.click()}
-                        className="flex items-center gap-2 text-[var(--accent-primary)] hover:opacity-80 transition-colors"
-                      >
-                        <ImageIcon className="w-4 h-4" />
-                        <span>添加贴纸</span>
-                      </button>
+                  <div className="flex items-center justify-between mt-8 pt-4 border-t"
+                    style={{ borderColor: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)' }}
+                  >
+                    <div className={clsx(
+                      "text-xs font-mono flex gap-4 items-center",
+                      isDark ? "text-slate-500" : "text-gray-500"
+                    )}>
+                      <span>{content.length} 字</span>
+                      <div className="flex items-center gap-3 ml-4">
+                        {/* 识别手写/文字按钮 */}
+                        <input
+                          type="file"
+                          ref={fileInputRef}
+                          className="hidden"
+                          accept="image/*"
+                          onChange={handleImageUpload}
+                        />
+                        <button
+                          onClick={() => fileInputRef.current?.click()}
+                          className="flex items-center gap-2 text-[var(--accent-primary)] hover:opacity-80 transition-colors"
+                          title="识别手写/文字"
+                        >
+                          <ScanLine className="w-4 h-4" />
+                          <span className="hidden sm:inline">识别手写</span>
+                        </button>
+                        {/* 语音输入按钮 */}
+                        <button
+                          onClick={() => setIsRecording(!isRecording)}
+                          className={clsx(
+                            "flex items-center gap-2 transition-colors",
+                            isRecording
+                              ? "text-red-500 animate-pulse"
+                              : "text-[var(--accent-primary)] hover:opacity-80"
+                          )}
+                          title="语音输入"
+                        >
+                          <Mic className="w-4 h-4" />
+                          <span className="hidden sm:inline">{isRecording ? '录音中...' : '语音输入'}</span>
+                        </button>
+                      </div>
                     </div>
-                  </div>
 
                   <GlassButton
                     onClick={(e) => {

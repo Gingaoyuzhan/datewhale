@@ -94,19 +94,27 @@ export function GardenPage() {
         })}
       </motion.div>
 
-      {/* Memory Box Footer */}
+      {/* Memory Box Footer - 半透明毛玻璃效果 */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
-        className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[calc(100%-3rem)] max-w-lg z-50"
+        className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[calc(100%-3rem)] max-w-lg z-40"
       >
-        <button className="w-full flex items-center justify-between px-6 py-4 rounded-2xl bg-gradient-to-r from-[#4A00E0] to-[#8E2DE2] shadow-[0_0_30px_rgba(142,45,226,0.3)] text-white">
+        <button className={clsx(
+          "w-full flex items-center justify-between px-6 py-4 rounded-2xl shadow-lg backdrop-blur-xl border",
+          isDark
+            ? "bg-purple-900/60 border-purple-500/30 text-white"
+            : "bg-purple-100/80 border-purple-300 text-purple-900"
+        )}>
           <div className="flex items-center gap-3">
-            <Package className="w-6 h-6 text-amber-300" />
+            <Package className={clsx(
+              "w-6 h-6",
+              isDark ? "text-amber-300" : "text-amber-600"
+            )} />
             <span className="font-bold text-lg">记忆盒</span>
           </div>
-          <span className="text-white/80">{entryCount}封信</span>
+          <span className={isDark ? "text-white/80" : "text-purple-700"}>{entryCount}封信</span>
         </button>
       </motion.div>
     </div>
